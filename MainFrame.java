@@ -117,6 +117,12 @@ public class MainFrame {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date parsed = sdf.parse(dateStr);
+            // Check: Datum darf nicht in der Zukunft liegen
+            Date today = sdf.parse(sdf.format(new Date()));  // aktuelles Datum ohne Uhrzeit
+            if (parsed.after(today)) {
+                JOptionPane.showMessageDialog(mainframe, "Eintrag für zukünftige Daten sind nicht erlaubt!");
+                return;
+            }
             sqlDate = new java.sql.Date(parsed.getTime());
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(mainframe, "Datum muss im Format yyyy-MM-dd sein!");
